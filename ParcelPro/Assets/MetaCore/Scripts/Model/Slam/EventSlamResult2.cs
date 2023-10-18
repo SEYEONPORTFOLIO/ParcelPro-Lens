@@ -1,0 +1,42 @@
+using UnityEngine;
+using System;
+using System.Collections.Generic;
+
+using Newtonsoft.Json;
+using System.Text;
+using System.Text.RegularExpressions;
+
+namespace Pnc
+{
+  namespace Model
+  {
+    namespace Slam
+    {
+      [System.Serializable]
+      public class EventSlamResult2 : PncEvent
+      {
+        public SlamResult slamResult;
+
+        public SlamResult getSlamResult()
+        {
+          return slamResult;
+        }
+
+        public void setSlamResult(SlamResult slamResult)
+        {
+          this.slamResult = slamResult;
+        }
+
+        public string info()
+        {
+          string buff = string.Empty;
+
+          buff = $"EventSlamResult2=[owner={getOwner()}, event type={getEventType()}" 
+          + $", timestamp={getTimestamp()}, slamResult={slamResult.info()}] ";
+
+          return buff;
+        }        
+      }
+    }// slam
+  } //model
+} //pnc
