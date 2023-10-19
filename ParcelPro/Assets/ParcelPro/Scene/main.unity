@@ -869,6 +869,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SvrCamera
       objectReference: {fileID: 0}
+    - target: {fileID: 121532, guid: bd325c22da8fc39409d0549d8f9a749a, type: 3}
+      propertyPath: m_TagString
+      value: MainCamera
+      objectReference: {fileID: 0}
     - target: {fileID: 494364, guid: bd325c22da8fc39409d0549d8f9a749a, type: 3}
       propertyPath: m_RootOrder
       value: 2

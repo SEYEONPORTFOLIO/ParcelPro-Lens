@@ -4,35 +4,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FeatureObject : MonoBehaviour
+public class FeatureObject : MonoBehaviour //[클래스설명] Unity에서 게임 오브젝트의 상태에 따라 특징 오브젝트를 관리하고 표시하는 클래스.
 {
     // Start is called before the first frame update
 
-    public string FileName;
+    public string FileName; // 파일 이름을 저장하는 변수입니다.
 
-    private GameObject[] frame;
+    private GameObject[] frame; // 프레임 오브젝트를 저장하는 배열입니다.
 
-    public float DefaultDepth = 5.0f;
+    public float DefaultDepth = 5.0f; // 기본 깊이를 나타내는 변수입니다.
 
-    public float DepthRate = 2.0f;
-    enum FeatureState
+    public float DepthRate = 2.0f; // 깊이 조절 레이트를 나타내는 변수입니다.
+    enum FeatureState // 오브젝트 상태를 정의하는 열거형입니다.
     {
-        none,
-        detect
+        none, // 아무 상태도 아님
+        detect // 특징을 감지 중인 상태
     }
 
-    FeatureState state = FeatureState.none;
+    FeatureState state = FeatureState.none; // 초기 상태는 'none'입니다.
 
     private void Start()
     {
-        int arraysize = this.transform.childCount;
-        frame = new GameObject[arraysize];
+        int arraysize = this.transform.childCount; 
+        frame = new GameObject[arraysize]; // 자식 오브젝트의 수만큼 프레임 배열을 초기화합니다.
 
         for (int i = 0; i < frame.Length; i++)
         {
             frame[i] = this.transform.GetChild(i).gameObject;
-            frame[i].SetActive(false);
-            Debug.Log("Child Name :: " + frame[i].name);
+            frame[i].SetActive(false); // 자식 오브젝트를 배열에 저장하고 비활성화합니다.
+            Debug.Log("Child Name :: " + frame[i].name); // 자식 오브젝트의 이름을 디버그 로그로 출력합니다.
         }
     }
 
@@ -42,21 +42,25 @@ public class FeatureObject : MonoBehaviour
     {
         string featureNames = null;
         float[] featurePos = new float[8];
+
+        // 특징 결과를 확인하고, 결과가 없으면 함수를 종료합니다.
         if (ComparedFeatureResult.GetFeatureResult() == null)
         {
             return;
         }
+        // 파일 이름이 없으면 함수를 종료합니다.
         if (FileName == null)
         {
             return;
         }
-
+        // 특징 결과에 파일 이름이 존재하지 않으면 함수를 종료합니다.
         if (!ComparedFeatureResult.GetFeatureResult().getFeatures().Exists(item => item.filename == FileName))
         {
             return;
         }
+        // 파일 이름에 해당하는 특징을 가져옵니다.
         Feature temp = ComparedFeatureResult.GetFeatureResult().getFeatures()[ComparedFeatureResult.GetFeatureResult().getFeatures().FindIndex(item => item.filename == FileName)];
-
+        // 상태가 'none'이고 특징의 상태가 1이면 특징을 감지 중인 상태로 변경합니다.
         if (state == FeatureState.none && temp.status == 1)
         {
             state = FeatureState.detect;
@@ -66,15 +70,18 @@ public class FeatureObject : MonoBehaviour
             {
                 Debug.Log(":::::     AndroidServiceBridge::featureobjTest= Position :: " + featurePos[i]);
             }
+
+            // 특징 위치를 이동합니다.
             MovePos(featurePos, temp.arearatio);
 
             //Debug.Log(":::::     AndroidServiceBridge::featureobjTest=}     ::::: " + FileName + " :: " + temp.arearatio);
         }
+        
         else if (state == FeatureState.detect && temp.status == 0)
         {
             state = FeatureState.none;
         }
-
+        // 상태가 'detect'이면 모든 프레임 오브젝트를 활성화합니다.
         if (state == FeatureState.detect)
         {
             for (int i = 0; i < frame.Length; i++)
@@ -82,7 +89,7 @@ public class FeatureObject : MonoBehaviour
                 frame[i].SetActive(true);
             }
         }
-        else
+        else // 상태가 'none'이면 모든 프레임 오브젝트를 비활성화합니다.
         {
             for (int i = 0; i < frame.Length; i++)
             {
