@@ -44,8 +44,8 @@ public class ARCamera : MonoBehaviour
 
                     //QR코드 테두리에 빨간색 박스 그리기
                     //QR코드의 각 꼭지점을 배열로 저장
-
-                    DrawQRCodeFrame(result.ResultPoints);
+                    ResultPoint[] point = result.ResultPoints;
+                    DrawQRCodeFrame(point);
                 }
             }
 
@@ -56,41 +56,40 @@ public class ARCamera : MonoBehaviour
         }
     }
 
-    //QR코드 테두리에 빨간색 박스 그리는 함수
+
+    // QR 코드 주변에 빨간색 상자를 그리는 함수
     private void DrawQRCodeFrame(ResultPoint[] corners)
     {
-        Vector3[] vertices = new Vector3[corners.Length];
-
-        //QR코드의 각 꼭지점을 배열로 저장
-        for (int i = 0; i < vertices.Length; i++)
+        if (corners.Length < 4)
         {
-            vertices[i] = new Vector3(corners[i].X, corners[i].Y, 0);
+            Debug.LogWarning("QR 코드를 그릴 수 있는 충분한 꼭지점이 없습니다.");
+            return;
         }
 
-        //배열의 첫번째 꼭지점을 배열의 마지막에 추가
-        int[] triangles = new int[] { 0, 1, 2, 0, 2, 3 };
-
-        //메시 생성
-        Mesh mesh = new Mesh();
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-
-        //메시 오브젝트 생성
         if (meshObject == null)
         {
             meshObject = new GameObject("QRCodeMesh");
-            meshObject.transform.parent = transform;
+            meshObject.transform.SetParent(transform);
             meshObject.transform.position = Vector3.zero;
             meshObject.transform.rotation = Quaternion.identity;
 
-            //메시 렌더러 생성
             if (material == null)
             {
                 material = new Material(Shader.Find("Standard"));
                 material.color = Color.red;
             }
 
-            // 메시 필터와 메시 렌더러 컴포넌트 추가
+            Mesh mesh = new Mesh();
+            mesh.vertices = new Vector3[]
+            {
+            new Vector3(corners[0].X, corners[0].Y, 0),
+            new Vector3(corners[1].X, corners[1].Y, 0),
+            new Vector3(corners[2].X, corners[2].Y, 0),
+            new Vector3(corners[3].X, corners[3].Y, 0),
+            };
+
+            mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
+
             MeshFilter meshFilter = meshObject.AddComponent<MeshFilter>();
             meshFilter.mesh = mesh;
 
@@ -99,12 +98,7 @@ public class ARCamera : MonoBehaviour
         }
         else
         {
-            // 기존 오브젝트가 있는 경우 메시와 메시 렌더러 업데이트
-            MeshFilter meshFilter = meshObject.GetComponent<MeshFilter>();
-            meshFilter.mesh = mesh;
-
-            MeshRenderer meshRenderer = meshObject.GetComponent<MeshRenderer>();
-            meshRenderer.material = material;
+            Debug.LogWarning("이미 QR 코드를 그리는 오브젝트가 있습니다. 업데이트하지 않았습니다.");
         }
     }
 
