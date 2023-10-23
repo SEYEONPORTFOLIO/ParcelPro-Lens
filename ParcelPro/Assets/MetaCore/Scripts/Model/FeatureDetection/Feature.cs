@@ -29,6 +29,15 @@ namespace Pnc
                 // 영역 비율을 저장하는 속성을 정의합니다.
                 public float arearatio;
 
+                public List<float> getPos()
+                {
+                    return position;
+                }
+
+                public List<float> getPosratio()
+                {
+                    return positionratio;
+                }
                 // JSON 문자열을 Feature 객체로 역직렬화하는 정적 메서드를 정의합니다.
                 public static Feature deserialize(string jsonString)
                 {

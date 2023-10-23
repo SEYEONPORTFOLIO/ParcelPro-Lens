@@ -18,6 +18,10 @@ namespace Pnc
                 public List<Feature> features;
 
                 // JSON 문자열을 FeatureResult 객체로 역직렬화하는 정적 메서드를 정의합니다.
+                public List<Feature> getFeatures()
+                {
+                    return features;
+                }
                 public static FeatureResult deserialize(string jsonString)
                 {
                     FeatureResult obj = JsonConvert.DeserializeObject<FeatureResult>(jsonString);
