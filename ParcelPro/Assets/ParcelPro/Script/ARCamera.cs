@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using System;
 using ZXing;    //ZXing.dll 임포트 후 선언.
 using ZXing.QrCode;
+using UnityEngine.SceneManagement;
 //이 코드는 Unity에서 웹캠을 통해 QR 코드를 감지하고 해당 QR 코드 주변에 빨간색 상자를 그리는 기능을 수행합니다
 
 public class ARCamera : MonoBehaviour
@@ -15,8 +16,7 @@ public class ARCamera : MonoBehaviour
     WebCamTexture camTexture;
     public RawImage cameraViewImage;  //웹캠 영상을 표시할 RawImage
     public AudioSource sound;  //QR코드 인식 성공시 재생할 사운드
-    GameObject meshObject; //메시 오브젝트
-    Material material; //빨간색 머터리얼
+
 
     //Start함수에서 권한을 확인하고 카메라를 켜는 함수를 호출
     private void Start()
@@ -39,13 +39,16 @@ public class ARCamera : MonoBehaviour
                 var result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width, camTexture.height);
                 if (result != null)
                 {
-                    Debug.Log("QR 코드: " + result.Text);
+                    Debug.Log("=====================================================================================QR : " + result.Text);
                     sound.Play();
 
-                    //QR코드 테두리에 빨간색 박스 그리기
-                    //QR코드의 각 꼭지점을 배열로 저장
-                    ResultPoint[] point = result.ResultPoints;
-                    DrawQRCodeFrame(point);
+                    // QR 코드가 인식되면 다음 씬으로 전환합니다.
+                    if (result.Text.Equals("https://qrco.de/beSUsK")) // 여기에 원하는 QR 코드 데이터를 넣으세요.
+                    {
+                        SceneManager.LoadScene("main"); // 여기에 다음 씬의 이름을 넣으세요.
+                        Debug.Log("=======================================================================================================다음씬 이동...");
+                    }
+
                 }
             }
 
@@ -55,53 +58,6 @@ public class ARCamera : MonoBehaviour
             }
         }
     }
-
-
-    // QR 코드 주변에 빨간색 상자를 그리는 함수
-    private void DrawQRCodeFrame(ResultPoint[] corners)
-    {
-        if (corners.Length < 4)
-        {
-            Debug.LogWarning("QR 코드를 그릴 수 있는 충분한 꼭지점이 없습니다.");
-            return;
-        }
-
-        if (meshObject == null)
-        {
-            meshObject = new GameObject("QRCodeMesh");
-            meshObject.transform.SetParent(transform);
-            meshObject.transform.position = Vector3.zero;
-            meshObject.transform.rotation = Quaternion.identity;
-
-            if (material == null)
-            {
-                material = new Material(Shader.Find("Standard"));
-                material.color = Color.red;
-            }
-
-            Mesh mesh = new Mesh();
-            mesh.vertices = new Vector3[]
-            {
-            new Vector3(corners[0].X, corners[0].Y, 0),
-            new Vector3(corners[1].X, corners[1].Y, 0),
-            new Vector3(corners[2].X, corners[2].Y, 0),
-            new Vector3(corners[3].X, corners[3].Y, 0),
-            };
-
-            mesh.triangles = new int[] { 0, 1, 2, 0, 2, 3 };
-
-            MeshFilter meshFilter = meshObject.AddComponent<MeshFilter>();
-            meshFilter.mesh = mesh;
-
-            MeshRenderer meshRenderer = meshObject.AddComponent<MeshRenderer>();
-            meshRenderer.material = material;
-        }
-        else
-        {
-            Debug.LogWarning("이미 QR 코드를 그리는 오브젝트가 있습니다. 업데이트하지 않았습니다.");
-        }
-    }
-
 
     //카메라 켜는 함수
     public void CameraOn()
@@ -153,12 +109,6 @@ public class ARCamera : MonoBehaviour
             camTexture.Stop(); //카메라 중지
             WebCamTexture.Destroy(camTexture); //웹캡 텍스처 제거
             camTexture = null; //변수 초기화
-        }
-
-        if (meshObject != null)
-        {
-            Destroy(meshObject);
-            meshObject = null;
         }
     }
 }
