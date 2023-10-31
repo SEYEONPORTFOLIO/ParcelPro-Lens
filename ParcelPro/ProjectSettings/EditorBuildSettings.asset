@@ -11,10 +11,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/UI Test.unity
     guid: 63b6a50649be0c4418b4003e553ab705
+  - enabled: 1
+    path: Assets/ParcelPro/Scene/QRScene.unity
+    guid: ed216da64e30be34cb453fe96363f098
+  - enabled: 0
+    path: Assets/ParcelPro/Scene/Three Boxes.unity
+    guid: e1db55cc7a265464eb6df692a3d883b9
+  - enabled: 0
+    path: Assets/ParcelPro/Scene/next.unity
+    guid: 6bd380cb4c7b1854a83569b0f4483bd9
+  - enabled: 0
+    path: Assets/ParcelPro/Scene/QRReader.unity
+    guid: 44b4f68ba7bcc704e939a88c0c97d0d4
   - enabled: 0
     path: Assets/ParcelPro/Scene/main.unity
     guid: 9fee440be4f94ff4f98faaff67eeb7a5
-  - enabled: 1
-    path: Assets/ParcelPro/Scene/Three Boxes.unity
-    guid: e1db55cc7a265464eb6df692a3d883b9
   m_configObjects: {}

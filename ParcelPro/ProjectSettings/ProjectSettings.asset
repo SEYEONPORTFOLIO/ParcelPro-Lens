@@ -760,7 +760,14 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
     UNet: 1
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -774,11 +781,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: 8bd52594-3662-43a7-b575-8e93aca985d0
+  cloudProjectId: b9962aee-bbbb-402b-bcee-ef16e65e8a99
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ParcelPro (1)
-  organizationId: seseseyeon
+  projectName: ParcelProLens (5)
+  organizationId: jeongee12
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
