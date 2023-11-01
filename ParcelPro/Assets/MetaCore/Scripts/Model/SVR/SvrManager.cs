@@ -153,6 +153,8 @@ public class SvrManager : MonoBehaviour, SvrManager.SvrEventListener
             Device
         }
 
+        [Tooltip("Use head tracking")]
+        public bool UseHeadTracking = false;
         [Tooltip("If head tracking lost, fade the display")]
         public bool poseStatusFade = true;
         [Tooltip("Use eye tracking (if available)")]
@@ -1062,7 +1064,7 @@ public class SvrManager : MonoBehaviour, SvrManager.SvrEventListener
             if ((status.pose & (int)SvrPlugin.TrackingMode.kTrackingOrientation) != 0)
             {
                 //sjy head rotation
-                //head.transform.localRotation = headRecenterRotation * headPose.orientation;
+                if (settings.UseHeadTracking == true) head.transform.localRotation = headRecenterRotation * headPose.orientation;
 
                 // delta orientation screen space x, y offset for foveated rendering
                 var deltaOrientation = Quaternion.Inverse(prevOrientation) * headPose.orientation;
