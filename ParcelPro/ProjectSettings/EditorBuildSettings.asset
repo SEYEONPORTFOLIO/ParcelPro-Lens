@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ParcelPro/Scene/QRScene.unity
     guid: ed216da64e30be34cb453fe96363f098
-  - enabled: 1
+  - enabled: 0
     path: Assets/ParcelPro/Scene/next.unity
     guid: 6bd380cb4c7b1854a83569b0f4483bd9
   - enabled: 0

@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 using ZXing;
 using TMPro;
 using UnityEngine.UI;
+using Pnc.Model;
+using TMPro;
+
+
 public class _ARCamera : MonoBehaviour
 {
     WebCamTexture camTexture;
@@ -12,19 +16,18 @@ public class _ARCamera : MonoBehaviour
     public Vector3 rotationOffset = new Vector3(0, 0, 180);
     public AudioSource sound;
     private bool soundPlayed = false;
+    public TextMeshProUGUI AddressNum;
+    private string OldText = null;
+    public Image Addressbackground;
+
 
     private void Start()
     {
         CameraOn();
-     
     }
 
     private void Update()
     {
-        if (Input.GetAxisRaw("B") == 1)
-        {
-            SceneManager.LoadScene("next");
-        }
         if (camTexture != null && camTexture.didUpdateThisFrame)
         {
             cameraRenderer.transform.rotation = Quaternion.Euler(rotationOffset);
@@ -40,21 +43,37 @@ public class _ARCamera : MonoBehaviour
                 var result = barcodeReader.Decode(camTexture.GetPixels32(), camTexture.width, camTexture.height);
                 if (result != null)
                 {
-                    Debug.Log("============================================================================================QR 코드: " + result.Text);
 
-                    if (!soundPlayed)
+                    Debug.Log("============================================================================================QR 코드: " + result.Text);
+                    if (OldText != result.Text)
                     {
                         sound.Play();
                         soundPlayed = true;
                     }
+                    if (result.Text.Equals("17C03"))
+                    {
+                        GameObject.Find("Outline_Img").GetComponent<Image>().color = new Color(162 / 255f, 0 / 255f, 0 / 255f);
+                        GameObject.Find("AddressBG_Img").GetComponent<Image>().color = new Color(162 / 255f, 0 / 255f, 0 / 255f);
+                    }
 
-                }                
+
+                    else if (result.Text.Equals("17C01") || result.Text.Equals("17C02"))
+                    {
+                        GameObject.Find("Outline_Img").GetComponent<Image>().color = new Color(135 / 255f, 135 / 255f, 135 / 255f);
+                        GameObject.Find("AddressBG_Img").GetComponent<Image>().color = new Color(135 / 255f, 135 / 255f, 135 / 255f);
+                    }
+                    Addressbackground.gameObject.SetActive(true);
+                    AddressNum.text = result.Text;
+                    OldText = result.Text;
+
+                }
+
             }
             catch (Exception ex)
             {
                 Debug.LogWarning(ex.Message);
             }
-        
+
         }
     }
 
@@ -100,5 +119,7 @@ public class _ARCamera : MonoBehaviour
             WebCamTexture.Destroy(camTexture);
             camTexture = null;
         }
+
     }
 }
+
