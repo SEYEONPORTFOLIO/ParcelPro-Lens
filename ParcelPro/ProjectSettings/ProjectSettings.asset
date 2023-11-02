@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: XRMayqueens
-  productName: ParcelProLens
+  productName: ParcelPro
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: kr.co.XRMayqueens.ParcelProLens
+    Android: kr.co.XRMayqueens.ParcelPro
     Standalone: com.pncsolution.ParcelProLens
   buildNumber:
     Standalone: 0
@@ -781,11 +781,11 @@ PlayerSettings:
     m_VersionName: 
   apiCompatibilityLevel: 6
   activeInputHandler: 0
-  cloudProjectId: b45432ec-244e-4321-9e01-ade5fe157651
+  cloudProjectId: aa150926-d1c0-42fe-a514-70e1551b0320
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: ParcelPro (2)
-  organizationId: seseseyeon
+  projectName: ParcelProLens (7)
+  organizationId: jeongee12
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
